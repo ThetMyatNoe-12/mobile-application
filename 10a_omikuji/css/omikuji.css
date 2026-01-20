@@ -81,6 +81,19 @@ header {
     animation: shaking 0.3s infinite;
 }
 
+.back{
+    text-align: left;
+}
+
+#btn99{
+    padding: 0.5em;
+    border-radius: 0.3em;
+    color: whitesmoke;
+    font-size: 1.5em;
+    background: rgb(26,212,212);
+    cursor: pointer;
+}
+
 @keyframes shaking {
     0% {
         transform: translate(0px, 0px) rotateZ(0deg);
@@ -217,4 +230,5 @@ footer>p {
     #omikujiText {
         margin: 0;
     }
+
 }
