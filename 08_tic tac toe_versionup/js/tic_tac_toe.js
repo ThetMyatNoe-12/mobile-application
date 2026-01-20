@@ -54,6 +54,10 @@ window.addEventListener("DOMContentLoaded", function() {
 }, false);
 
 $('.square').on('click', function() {
+    // コンピュータのターン中はクリック無効
+    if (computerTurn) {
+        return;
+    }
     isSelect(this);
 });
 
@@ -107,10 +111,9 @@ function isSelect(selectSquare) {
         return;
     }
     
-    // コンピュータのターン中の場合はリターン（ユーザーがクリックできない）
-    if (computerTurn) {
-        return;
-    }
+    // コンピュータのターン中で、ユーザーがクリックした場合はリターン（computerTurnがtrueで、selectSquareがクリックされた場合）
+    // 注：computerTurnがtrueでもisSelect()内で呼ばれることがある（bearTurn()から）ので、
+    // ここでは単純にcomputerTurnだけでは判定できない
     
     if ($(selectSquare).hasClass("js-pen-checked") || $(selectSquare).hasClass("js-bear-checked")) {
         return;
@@ -275,6 +278,8 @@ function bearTurn() {
         return;
     }
     
+    console.log("bearTurn started, flag:", flag);
+    
     // 1. リーチがある場合、勝つ処理をする
     for (let i = 0; i < lineArray.length; i++) {
         const line = lineArray[i];
@@ -297,6 +302,7 @@ function bearTurn() {
         
         // シロクマが2個で、ペンギンが0個の場合、勝つ
         if (bearCheckCnt === 2 && penCheckCnt === 0 && emptySquare) {
+            console.log("Bear attacking!");
             isSelect(emptySquare);
             return;
         }
@@ -324,6 +330,7 @@ function bearTurn() {
         
         // ペンギンが2個で、シロクマが0個の場合、防ぐ
         if (penCheckCnt === 2 && bearCheckCnt === 0 && emptySquare) {
+            console.log("Bear defending!");
             isSelect(emptySquare);
             return;
         }
@@ -332,10 +339,13 @@ function bearTurn() {
     // 3. クリックできるマス目の中から、1つをランダムに選ぶ。
     const bearSquare = Array.from(document.querySelectorAll(".square:not(.js-unclickable)"));
     
+    console.log("Available squares:", bearSquare.length);
+    
     if (bearSquare.length === 0) {
         return;
     }
     
     const n = Math.floor(Math.random() * bearSquare.length);
+    console.log("Bear random move index:", n);
     isSelect(bearSquare[n]);
 }
