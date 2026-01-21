@@ -111,10 +111,6 @@ function isSelect(selectSquare) {
         return;
     }
     
-    // コンピュータのターン中で、ユーザーがクリックした場合はリターン（computerTurnがtrueで、selectSquareがクリックされた場合）
-    // 注：computerTurnがtrueでもisSelect()内で呼ばれることがある（bearTurn()から）ので、
-    // ここでは単純にcomputerTurnだけでは判定できない
-    
     if ($(selectSquare).hasClass("js-pen-checked") || $(selectSquare).hasClass("js-bear-checked")) {
         return;
     }
